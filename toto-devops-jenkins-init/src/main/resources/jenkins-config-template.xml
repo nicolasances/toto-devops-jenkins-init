@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.15">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.2.5"/>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.42">
+    <script>pipeline {
+    agent any
+
+    stages {
+
+        stage(&quot;Download&quot;) {
+
+            steps {
+
+                sh &apos;rm -r -f /project&apos;
+                sh &apos;git clone https://github.com/nicolasances/${totoMSname}.git /project&apos;
+            }
+        }
+
+        stage(&quot;Compile&quot;) {
+
+            steps {
+
+                dir(&apos;/project/${totoMSname}&apos;) {
+                    sh &apos;mvn clean install -e&apos;
+                }
+            }
+        }
+
+        stage(&quot;Build Docker Image&quot;) {
+
+            steps {  
+                sh &apos;cp /project/${totoMSname}/target/*.jar /project/${totoMSname}&apos;
+                dir(&apos;/project/${totoMSname}&apos;) {
+
+                    sh &apos;docker build -t ${totoMSname} .&apos;
+                }
+            }
+        }
+
+        stage(&quot;Deploy&quot;) {
+
+            steps {
+
+                sh &apos;docker stop ${totoMSname} || true&apos;
+                sh &apos;docker rm ${totoMSname} || true&apos;
+                sh &apos;docker run -d --network totonet --name ${totoMSname} ${totoMSname}&apos;
+            }
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
