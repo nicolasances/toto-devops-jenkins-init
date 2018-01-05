@@ -2,12 +2,12 @@ package com.imatz.toto.devops.jenkins.init.dlg;
 
 import java.util.List;
 
-import org.bson.Document;
 import org.springframework.stereotype.Service;
 
 import com.imatz.toto.devops.jenkins.init.model.to.GetGithubMicroservicesResponse;
 import com.imatz.toto.devops.jenkins.init.model.to.GetGithubMicroservicesResponse.TotoMSProject;
 import com.imatz.toto.devops.jenkins.init.util.HTTPCall;
+import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
 
 /**
@@ -27,12 +27,12 @@ public class GetGithubMicroservicesDelegate {
 		
 		// 2. Parse result
 		@SuppressWarnings("unchecked")
-		List<Document> docs = (List<Document>) JSON.parse(result);
+		List<BasicDBObject> docs = (List<BasicDBObject>) JSON.parse(result);
 		
 		// 3. Transform
 		GetGithubMicroservicesResponse response = new GetGithubMicroservicesResponse();
 		
-		for (Document doc : docs) {
+		for (BasicDBObject doc : docs) {
 			
 			if (doc.getString("name").startsWith("toto-ms-")) response.addProject(new TotoMSProject(doc.getString("name"), doc.getString("clone_url")));
 		}
