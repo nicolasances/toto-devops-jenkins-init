@@ -57,7 +57,7 @@ public class JenkinsTotoMSJobDescriptor implements JenkinsJobDescriptor {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				
-				writer.write(line.replaceAll("${totoMSname}", totoMsName_));
+				writer.write(line.replaceAll("\\$\\{totoMSname\\}", totoMsName_));
 				writer.flush();
 			}
 		}
