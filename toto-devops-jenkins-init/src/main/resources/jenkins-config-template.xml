@@ -9,7 +9,7 @@
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.42">
 	<script>
     pipeline {
-    	agent any
+    	agent any;
 
     	stages {
 
@@ -17,7 +17,7 @@
 	
 	            steps {
 	
-	                sh &apos;rm -r -f /project&apos;
+	                sh &apos;rm -r -f /project&apos; ;
 	                sh &apos;git clone https://github.com/nicolasances/${totoMSname}.git /project&apos;
 	            }
 	        }
@@ -35,7 +35,7 @@
 	        stage(&quot;Build Docker Image&quot;) {
 	
 	            steps {  
-	                sh &apos;cp /project/${totoMSname}/target/*.jar /project/${totoMSname}&apos;
+	                sh &apos;cp /project/${totoMSname}/target/*.jar /project/${totoMSname}&apos; ;
 	                dir(&apos;/project/${totoMSname}&apos;) {
 	
 	                    sh &apos;docker build -t ${totoMSname} .&apos;
@@ -47,8 +47,8 @@
 	
 	            steps {
 	
-	                sh &apos;docker stop ${totoMSname} || true&apos;
-	                sh &apos;docker rm ${totoMSname} || true&apos;
+	                sh &apos;docker stop ${totoMSname} || true&apos; ;
+	                sh &apos;docker rm ${totoMSname} || true&apos; ;
 	                sh &apos;docker run -d --network totonet --name ${totoMSname} ${totoMSname}&apos;
 	            }
 	        }
