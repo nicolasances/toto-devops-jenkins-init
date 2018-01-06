@@ -43,7 +43,7 @@ public class PostJenkinsJobStartDelegate {
 	 */
 	private String buildURL(Host hostDetails, String jobName) {
 
-		return hostDetails.getProtocol() + "://" + hostDetails.getHost() + ":" + hostDetails.getPort() + "/" + jobName + "/build?token=toto-build-token";
+		return hostDetails.getProtocol() + "://" + hostDetails.getHost() + ":" + hostDetails.getPort() + "/job/" + jobName + "/build?token=toto-build-token";
 
 	}
 
