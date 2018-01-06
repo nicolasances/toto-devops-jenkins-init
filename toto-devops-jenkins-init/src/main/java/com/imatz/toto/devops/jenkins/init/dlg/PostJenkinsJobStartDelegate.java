@@ -35,16 +35,6 @@ public class PostJenkinsJobStartDelegate {
 	}
 
 	/**
-	 * Retrieves the token for the specified repository name
-	 * @param jobName
-	 * @return
-	 */
-	private String buildToken(String jobName) {
-
-		return jobName.substring("build-".length()) + "-token";
-	}
-
-	/**
 	 * Builds the Jenkins URL to create a job
 	 * 
 	 * @param hostDetails
@@ -53,7 +43,7 @@ public class PostJenkinsJobStartDelegate {
 	 */
 	private String buildURL(Host hostDetails, String jobName) {
 
-		return hostDetails.getProtocol() + "://" + hostDetails.getHost() + ":" + hostDetails.getPort() + "/build?token=" + buildToken(jobName);
+		return hostDetails.getProtocol() + "://" + hostDetails.getHost() + ":" + hostDetails.getPort() + "/build?token=toto-build-token";
 
 	}
 
