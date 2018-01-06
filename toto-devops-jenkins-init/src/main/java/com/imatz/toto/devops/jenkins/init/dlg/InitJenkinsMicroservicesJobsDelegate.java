@@ -8,6 +8,7 @@ import com.imatz.toto.devops.jenkins.init.model.to.InitJenkinsMicroservicesJobsR
 import com.imatz.toto.devops.jenkins.init.model.to.InitJenkinsMicroservicesJobsResponse;
 import com.imatz.toto.devops.jenkins.init.model.to.GetGithubMicroservicesResponse.TotoMSProject;
 import com.imatz.toto.devops.jenkins.init.model.to.PostJenkinsJobRequest;
+import com.imatz.toto.devops.jenkins.init.model.to.PostJenkinsJobResponse;
 
 @Service
 public class InitJenkinsMicroservicesJobsDelegate {
@@ -34,9 +35,10 @@ public class InitJenkinsMicroservicesJobsDelegate {
 			
 			postJenkinsJobRequest.setTotoMsName(msProject.getName());
 			
-			postJenkinsJobDelegate_.postJenkinsJob(postJenkinsJobRequest);
+			PostJenkinsJobResponse jobCreationResponse = postJenkinsJobDelegate_.postJenkinsJob(postJenkinsJobRequest);
 			
-			response.addJobCreated(msProject.getName());
+			if (jobCreationResponse.getAlreadyExisting()) response.addJob(msProject.getName());
+			else response.addJobCreated(msProject.getName());
 		}
 		
 		response.setNumberOfJobsCreated(response.getJobsCreated().size());

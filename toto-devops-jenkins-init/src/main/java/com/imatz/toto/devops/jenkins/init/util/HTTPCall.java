@@ -25,7 +25,7 @@ public class HTTPCall {
 		endpoint_ = endpoint;
 	}
 
-	public String call(InputStream inputStream, String method, String contentType, String accept) {
+	public String call(InputStream inputStream, String method, String contentType, String accept) throws IOException {
 
 		HttpURLConnection connection = null;
 		try {
@@ -61,8 +61,8 @@ public class HTTPCall {
 			return response;
 
 		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
+		catch (IOException e) {
+			throw e;
 		}
 		finally {
 			if (connection != null) connection.disconnect();
