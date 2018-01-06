@@ -20,24 +20,31 @@ public class GetGithubMicroservicesDelegate {
 	
 	public GetGithubMicroservicesResponse getGithubMicroservices() {
 		
-		// 1. Get from git hub
-		HTTPCall call = new HTTPCall("https://api.github.com/users/nicolasances/repos");
-
-		String result = call.call(null, "GET", "application/json", "application/json");
-		
-		// 2. Parse result
-		@SuppressWarnings("unchecked")
-		List<BasicDBObject> docs = (List<BasicDBObject>) JSON.parse(result);
-		
-		// 3. Transform
-		GetGithubMicroservicesResponse response = new GetGithubMicroservicesResponse();
-		
-		for (BasicDBObject doc : docs) {
+		try {
 			
-			if (doc.getString("name").startsWith("toto-ms-")) response.addProject(new TotoMSProject(doc.getString("name"), doc.getString("clone_url")));
+			// 1. Get from git hub
+			HTTPCall call = new HTTPCall("https://api.github.com/users/nicolasances/repos");
+			
+			String result = call.call(null, "GET", "application/json", "application/json");
+			
+			// 2. Parse result
+			@SuppressWarnings("unchecked")
+			List<BasicDBObject> docs = (List<BasicDBObject>) JSON.parse(result);
+			
+			// 3. Transform
+			GetGithubMicroservicesResponse response = new GetGithubMicroservicesResponse();
+			
+			for (BasicDBObject doc : docs) {
+				
+				if (doc.getString("name").startsWith("toto-ms-")) response.addProject(new TotoMSProject(doc.getString("name"), doc.getString("clone_url")));
+			}
+			
+			return response;
+			
 		}
-		
-		return response;
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 }
