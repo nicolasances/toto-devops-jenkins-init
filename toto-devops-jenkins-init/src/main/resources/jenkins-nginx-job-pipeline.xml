@@ -2,10 +2,19 @@
 <flow-definition plugin="workflow-job@2.15">
   <actions>
     <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.2.5"/>
+   	<org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.2.5">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
   </actions>
   <description></description>
   <keepDependencies>false</keepDependencies>
-  <properties/>
+  <properties>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers/>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.42">
 	<script>
 		pipeline { agent any; stages { stage("Build Docker Image") {steps { dir('/nginx-setup') { sh 'docker build -t toto-nginx .'; }}}; stage("Deploy") {steps { sh 'docker stop toto-nginx || true' ; sh 'docker rm toto-nginx || true' ; sh 'docker run -d -p 80:80 --network totonet --name toto-nginx toto-nginx'; }};}}  	
@@ -13,5 +22,6 @@
   	<sandbox>true</sandbox>
   </definition>
   <triggers/>
+  <authToken>toto-build-token</authToken>
   <disabled>false</disabled>
 </flow-definition>
