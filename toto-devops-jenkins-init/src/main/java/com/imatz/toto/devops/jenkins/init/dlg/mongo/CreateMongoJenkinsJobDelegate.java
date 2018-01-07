@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.springframework.stereotype.Service;
 
 import com.imatz.toto.devops.jenkins.init.jenkins.JenkinsJobDescriptor;
-import com.imatz.toto.devops.jenkins.init.jenkins.JenkinsNginxJobDescriptor;
+import com.imatz.toto.devops.jenkins.init.jenkins.JenkinsMongoJobDescriptor;
 import com.imatz.toto.devops.jenkins.init.model.to.CreateMongoJenkinsJobRequest;
 import com.imatz.toto.devops.jenkins.init.model.to.CreateMongoJenkinsJobResponse;
 import com.imatz.toto.devops.jenkins.init.model.to.PostJenkinsJobRequest.Host;
@@ -18,7 +18,7 @@ public class CreateMongoJenkinsJobDelegate {
 
 	public CreateMongoJenkinsJobResponse createMongoJenkinsJob(CreateMongoJenkinsJobRequest request) {
 
-		JenkinsJobDescriptor jenkinsJobDescriptor = new JenkinsNginxJobDescriptor();
+		JenkinsJobDescriptor jenkinsJobDescriptor = new JenkinsMongoJobDescriptor();
 
 		// 2. Make the call
 		HTTPCall call = new HTTPCall(buildURL(request.getHostDetails(), MONGO_JENKINS_JOB_NAME));
