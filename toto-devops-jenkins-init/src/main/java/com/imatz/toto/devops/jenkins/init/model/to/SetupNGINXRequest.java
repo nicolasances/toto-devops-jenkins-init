@@ -1,8 +1,9 @@
 package com.imatz.toto.devops.jenkins.init.model.to;
 
+import java.util.List;
+
 import com.imatz.toto.devops.jenkins.init.model.to.PostJenkinsJobRequest.Host;
 import com.imatz.toto.devops.jenkins.init.util.Credentials;
-
 
 public class SetupNGINXRequest {
 
@@ -15,6 +16,16 @@ public class SetupNGINXRequest {
 	 * Credentials used to access Jenkins. Username and a token.
 	 */
 	private Credentials credentials_;
+
+	private List<String> excludedMicroservices_;
+
+	public List<String> getExcludedMicroservices() {
+		return excludedMicroservices_;
+	}
+
+	public void setExcludedMicroservices(List<String> excludedMicroservices) {
+		excludedMicroservices_ = excludedMicroservices;
+	}
 
 	/**
 	 * The name of the toto MS for which to create the job. <br/>

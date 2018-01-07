@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,51 +25,58 @@ import com.imatz.toto.devops.jenkins.init.model.to.GetGithubMicroservicesRespons
 public class CreateNGINXConfDelegate {
 
 	private static String TARGET_FOLDER_NAME = "nginx-setup";
-	
+
 	@Autowired
 	private GetGithubMicroservicesDelegate getGithubMicroservicesDelegate_;
 
 	public CreateNGINXConfDelegateResponse createNGINXConfDelegate(CreateNGINXConfDelegateRequest request) {
-		
+
 		// 1. Create directory
 		createDir();
-		
+
 		// 2. Create conf file
 		File confFile = new File("/" + TARGET_FOLDER_NAME + "/nginx.conf");
-		
+
 		// 3. Get Toto MS repositories
 		GetGithubMicroservicesResponse microservices = getGithubMicroservicesDelegate_.getGithubMicroservices();
-		
+
 		// 4. Create conf file content
-		createNginxConf(confFile, microservices);
+		createNginxConf(confFile, microservices, request.getExcludedMicroservices());
 
 		return new CreateNGINXConfDelegateResponse(confFile);
 	}
 
 	/**
 	 * Creates the content of the nginx configuration file nginx.conf
+	 * 
 	 * @param confFile
 	 * @param microservices
+	 *            the list of microservices projects retrieved from github
+	 * @param excludedMicroservices
+	 *            list of microservices (names, e.g. toto-ms-gym) that are to be
+	 *            excluded from nginx
 	 */
-	private void createNginxConf(File confFile, GetGithubMicroservicesResponse microservices) {
-		
+	private void createNginxConf(File confFile, GetGithubMicroservicesResponse microservices, List<String> excludedMicroservices) {
+
 		BufferedWriter writer = null;
-		
+
 		try {
-			
+
 			writer = new BufferedWriter(new FileWriter(confFile));
-			
+
 			writer.write("http {");
 			writer.newLine();
 			writer.write("server {");
 			writer.newLine();
-			
+
 			writer.flush();
-			
+
 			for (TotoMSProject msProject : microservices.getProjects()) {
-				
+
 				String msName = msProject.getName();
-				
+
+				if (excluded(msName, excludedMicroservices)) continue;
+
 				writer.newLine();
 				writer.write("location /" + msName.substring("toto-ms-".length()) + "/ {");
 				writer.newLine();
@@ -76,15 +84,15 @@ public class CreateNGINXConfDelegate {
 				writer.newLine();
 				writer.write("}");
 				writer.newLine();
-				
+
 				writer.flush();
 			}
-			
+
 			writer.write("}");
 			writer.newLine();
 			writer.write("}");
 			writer.write("events {}");
-			
+
 			writer.flush();
 		}
 		catch (Exception e) {
@@ -101,14 +109,30 @@ public class CreateNGINXConfDelegate {
 	}
 
 	/**
+	 * Checks if the specified MS has been excluded from nginx
+	 * 
+	 * @param msName
+	 * @param excludedMicroservices
+	 * @return
+	 */
+	private boolean excluded(String msName, List<String> excludedMicroservices) {
+		
+		for (String excluded : excludedMicroservices) {
+			if (msName.equalsIgnoreCase(excluded)) return true;
+		}
+		
+		return false;
+	}
+
+	/**
 	 * Creates the target dir for the nginx conf file
 	 */
 	private File createDir() {
-		
+
 		File dir = new File("/" + TARGET_FOLDER_NAME);
-		
+
 		if (!dir.exists()) dir.mkdir();
-		
+
 		return dir;
 	}
 
