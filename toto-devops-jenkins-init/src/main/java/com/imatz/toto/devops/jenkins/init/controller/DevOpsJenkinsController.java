@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.imatz.toto.devops.jenkins.init.dlg.BuildTotoMicroservicesDelegate;
 import com.imatz.toto.devops.jenkins.init.dlg.InitJenkinsMicroservicesJobsDelegate;
+import com.imatz.toto.devops.jenkins.init.dlg.mongo.SetupMongoDelegate;
 import com.imatz.toto.devops.jenkins.init.dlg.nginx.SetupNGINXDelegate;
 import com.imatz.toto.devops.jenkins.init.model.to.BuildTotoMicroservicesRequest;
 import com.imatz.toto.devops.jenkins.init.model.to.BuildTotoMicroservicesResponse;
 import com.imatz.toto.devops.jenkins.init.model.to.InitJenkinsMicroservicesJobsRequest;
 import com.imatz.toto.devops.jenkins.init.model.to.InitJenkinsMicroservicesJobsResponse;
+import com.imatz.toto.devops.jenkins.init.model.to.SetupMongoRequest;
+import com.imatz.toto.devops.jenkins.init.model.to.SetupMongoResponse;
 import com.imatz.toto.devops.jenkins.init.model.to.SetupNGINXRequest;
 import com.imatz.toto.devops.jenkins.init.model.to.SetupNGINXResponse;
 
@@ -28,6 +31,9 @@ public class DevOpsJenkinsController {
 	
 	@Autowired
 	private SetupNGINXDelegate setupNGINXDelegate_;
+	
+	@Autowired
+	private SetupMongoDelegate setupMongoDelegate_;
 	
 	@RequestMapping(value = "/init", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public @ResponseBody InitJenkinsMicroservicesJobsResponse initJenkinsMicroservicesJobs(@RequestBody InitJenkinsMicroservicesJobsRequest request) {
@@ -45,5 +51,11 @@ public class DevOpsJenkinsController {
 	public @ResponseBody SetupNGINXResponse setupNginx(@RequestBody SetupNGINXRequest request) {
 		
 		return setupNGINXDelegate_.setupNGINX(request);
+	}
+	
+	@RequestMapping(value = "/mongo/setup", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	public @ResponseBody SetupMongoResponse setupMongo(@RequestBody SetupMongoRequest request) {
+		
+		return setupMongoDelegate_.setupMongo(request);
 	}
 }
