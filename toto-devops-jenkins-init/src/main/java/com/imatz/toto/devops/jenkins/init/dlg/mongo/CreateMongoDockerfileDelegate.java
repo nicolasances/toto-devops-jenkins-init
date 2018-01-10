@@ -40,6 +40,9 @@ public class CreateMongoDockerfileDelegate {
 
 			writer.write("FROM mongo:3.0");
 			writer.newLine();
+			writer.newLine();
+			writer.write("CMD [\"mongod\", \"--smallfiles\"]");
+			writer.newLine();
 
 			writer.flush();
 		}
