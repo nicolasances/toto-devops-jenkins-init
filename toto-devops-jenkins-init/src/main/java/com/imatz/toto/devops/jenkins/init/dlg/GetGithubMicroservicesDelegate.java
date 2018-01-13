@@ -36,6 +36,8 @@ public class GetGithubMicroservicesDelegate {
 			
 			for (BasicDBObject doc : docs) {
 				
+				System.out.println("Github project: " + doc.getString("name"));
+				
 				if (doc.getString("name").startsWith("toto-ms-") || doc.getString("name").startsWith("toto-nodems-")) response.addProject(new TotoMSProject(doc.getString("name"), doc.getString("clone_url")));
 			}
 			
