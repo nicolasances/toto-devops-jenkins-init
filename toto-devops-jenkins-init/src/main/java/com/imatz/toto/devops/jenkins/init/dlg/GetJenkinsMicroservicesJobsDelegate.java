@@ -32,7 +32,7 @@ public class GetJenkinsMicroservicesJobsDelegate {
 				
 				String job = doc.getString("name");
 				
-				if (job.startsWith("build-toto-ms-")) response.addJob(job);
+				if (job.startsWith("build-toto-ms-") || job.startsWith("build-toto-nodems-")) response.addJob(job);
 			}
 			
 			return response;
