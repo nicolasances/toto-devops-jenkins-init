@@ -78,7 +78,8 @@ public class CreateNGINXConfDelegate {
 				if (excluded(msName, excludedMicroservices)) continue;
 
 				writer.newLine();
-				writer.write("location /" + msName.substring("toto-ms-".length()) + "/ {");
+				if (msName.contains("toto-ms-")) writer.write("location /" + msName.substring("toto-ms-".length()) + "/ {");
+				else writer.write("location /" + msName.substring("toto-nodems-".length()) + "/ {");
 				writer.newLine();
 				writer.write("proxy_pass http://" + msName + ":8080/;");
 				writer.newLine();
