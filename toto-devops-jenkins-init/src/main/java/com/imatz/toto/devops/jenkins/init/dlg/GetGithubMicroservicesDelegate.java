@@ -22,24 +22,32 @@ public class GetGithubMicroservicesDelegate {
 		
 		try {
 			
-			// 1. Get from git hub
-			HTTPCall call = new HTTPCall("https://api.github.com/users/nicolasances/repos");
-			
-			String result = call.call(null, "GET", "application/json", "application/json");
-			
-			// 2. Parse result
-			@SuppressWarnings("unchecked")
-			List<BasicDBObject> docs = (List<BasicDBObject>) JSON.parse(result);
-			
-			// 3. Transform
 			GetGithubMicroservicesResponse response = new GetGithubMicroservicesResponse();
 			
-			for (BasicDBObject doc : docs) {
+			boolean endOfDataset = false;
+			int page = 1;
+			
+			do {
 				
-				System.out.println("Github project: " + doc.getString("name"));
+				// 1. Get from git hub
+				HTTPCall call = new HTTPCall("https://api.github.com/users/nicolasances/repos?page=" + page);
 				
-				if (doc.getString("name").startsWith("toto-ms-") || doc.getString("name").startsWith("toto-nodems-")) response.addProject(new TotoMSProject(doc.getString("name"), doc.getString("clone_url")));
-			}
+				String result = call.call(null, "GET", "application/json", "application/json");
+				
+				// 2. Parse result
+				@SuppressWarnings("unchecked")
+				List<BasicDBObject> docs = (List<BasicDBObject>) JSON.parse(result);
+				
+				// 3. Transform
+				for (BasicDBObject doc : docs) {
+					
+					if (doc.getString("name").startsWith("toto-ms-") || doc.getString("name").startsWith("toto-nodems-")) response.addProject(new TotoMSProject(doc.getString("name"), doc.getString("clone_url")));
+				}
+				
+				page++;
+				
+			} while (!endOfDataset); 
+			
 			
 			return response;
 			
