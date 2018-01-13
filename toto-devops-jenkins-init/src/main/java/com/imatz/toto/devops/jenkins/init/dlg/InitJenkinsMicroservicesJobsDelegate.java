@@ -33,6 +33,8 @@ public class InitJenkinsMicroservicesJobsDelegate {
 		
 		for (TotoMSProject msProject : githubMicroservices.getProjects()) {
 			
+			System.out.println("Creating a Jenkins job for project " + msProject.getName());
+			
 			postJenkinsJobRequest.setTotoMsName(msProject.getName());
 			
 			PostJenkinsJobResponse jobCreationResponse = postJenkinsJobDelegate_.postJenkinsJob(postJenkinsJobRequest);
