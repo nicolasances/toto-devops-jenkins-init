@@ -38,6 +38,8 @@ public class GetGithubMicroservicesDelegate {
 				@SuppressWarnings("unchecked")
 				List<BasicDBObject> docs = (List<BasicDBObject>) JSON.parse(result);
 				
+				if (docs == null || docs.isEmpty()) endOfDataset = true;
+				
 				// 3. Transform
 				for (BasicDBObject doc : docs) {
 					
