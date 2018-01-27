@@ -86,6 +86,7 @@ public class JenkinsTotoMSJobDescriptor implements JenkinsJobDescriptor {
 		
 		String templateName = "jenkins-config-template.xml";
 		if (totoMsName_.startsWith("toto-nodems-")) templateName = "jenkins-nodems-template.xml";
+		if (totoMsName_.startsWith("toto-nodems-docker")) templateName = "jenkins-nodems-docker-template.xml";
 		
 		InputStream templateIS = this.getClass().getClassLoader().getResourceAsStream(templateName);
 		FileOutputStream templateCopyOS = null;
