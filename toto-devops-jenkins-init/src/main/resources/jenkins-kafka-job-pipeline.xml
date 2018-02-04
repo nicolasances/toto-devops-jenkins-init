@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.15">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.2.5"/>
+   	<org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.2.5">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers/>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.42">
+	<script>
+		pipeline { agent any; stages { stage("Start Zookeeper") {steps { sh 'docker stop zookeeper || true' ; sh 'docker rm zookeeper || true' ; sh 'docker run -d -p 2181:2181 --network totonet --name zookeeper --restart always nicolasances/zookeeper'; }}; stage("Start Kafka") {steps { sh 'docker stop kafka || true' ; sh 'docker rm kafka || true' ; sh 'docker run -d -p 9092:9092 --network totonet --restart always --name kafka nicolasances/kafka'; }};}}  	
+  	</script>
+  	<sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <authToken>toto-build-token</authToken>
+  <disabled>false</disabled>
+</flow-definition>
