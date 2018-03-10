@@ -81,6 +81,15 @@ public class CreateNGINXConfDelegate {
 			}
 
 			writer.flush();
+			
+			if (prod) {
+				writer.write("location /toto/ {");
+				writer.newLine();
+				writer.write("proxy_pass http://toto/;");
+				writer.newLine();
+				writer.write("}");
+				writer.newLine();
+			}
 
 			for (TotoMSProject msProject : microservices.getProjects()) {
 
@@ -96,10 +105,10 @@ public class CreateNGINXConfDelegate {
 				writer.newLine();
 				writer.write("}");
 				writer.newLine();
-
+				
 				writer.flush();
 			}
-
+			
 			writer.write("}");
 			writer.newLine();
 			writer.write("}");
