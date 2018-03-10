@@ -27,7 +27,7 @@ public class SetupNGINXDelegate {
 
 	public SetupNGINXResponse setupNGINX (SetupNGINXRequest request) {
 		
-		createNGINXConfDelegate_.createNGINXConfDelegate(new CreateNGINXConfDelegateRequest(request.getExcludedMicroservices()));
+		createNGINXConfDelegate_.createNGINXConfDelegate(new CreateNGINXConfDelegateRequest(request.getExcludedMicroservices(), request.getProd()));
 		
 		createNGINXDockerfileDelegate_.createNGINXDockerfile(new CreateNGINXDockerfileRequest());
 		

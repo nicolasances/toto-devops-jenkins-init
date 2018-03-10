@@ -19,6 +19,8 @@ public class SetupNGINXRequest {
 
 	private List<String> excludedMicroservices_;
 
+	private Boolean prod_;
+
 	public List<String> getExcludedMicroservices() {
 		return excludedMicroservices_;
 	}
@@ -32,6 +34,14 @@ public class SetupNGINXRequest {
 	 * A toto MS name is for example toto-ms-gym
 	 */
 	private String totoMsName_;
+
+	public void setProd(Boolean prod) {
+		prod_ = prod;
+	}
+
+	public Boolean getProd() {
+		return prod_;
+	}
 
 	public String getTotoMsName() {
 		return totoMsName_;
