@@ -74,9 +74,9 @@ public class CreateNGINXConfDelegate {
 				writer.newLine();
 				writer.write("server_name imatz.info;");
 				writer.newLine();
-				writer.write("ssl_certificate /certificates/fullchain2.pem;");
+				writer.write("ssl_certificate /certificates/fullchain3.pem;");
 				writer.newLine();
-				writer.write("ssl_certificate_key /certificates/privkey2.pem;");
+				writer.write("ssl_certificate_key /certificates/privkey3.pem;");
 				writer.newLine();
 			}
 
