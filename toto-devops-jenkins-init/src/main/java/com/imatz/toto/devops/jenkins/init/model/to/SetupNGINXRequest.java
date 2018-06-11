@@ -32,10 +32,11 @@ public class SetupNGINXRequest {
 		return certificateNum_;
 	}
 	
-	public SetupNGINXRequest() {
-		// TODO Auto-generated constructor stub
+	public void setCertificateNum(Integer certificateNum) {
+		certificateNum_ = certificateNum;
 	}
-
+	
+	
 	public List<String> getExcludedMicroservices() {
 		return excludedMicroservices_;
 	}
