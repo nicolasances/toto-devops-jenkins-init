@@ -20,6 +20,21 @@ public class SetupNGINXRequest {
 	private List<String> excludedMicroservices_;
 
 	private Boolean prod_;
+	
+	/**
+	 * Certificate number used in case of prod
+	 * The cerificate number is the number that comes after the letsencrypt certificate: 
+	 * e.g. fullchain1.pem => certificate number = 1
+	 */
+	private Integer certificateNum_;
+	
+	public Integer getCertificateNum() {
+		return certificateNum_;
+	}
+	
+	public SetupNGINXRequest() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public List<String> getExcludedMicroservices() {
 		return excludedMicroservices_;

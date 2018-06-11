@@ -41,7 +41,7 @@ public class CreateNGINXConfDelegate {
 		GetGithubMicroservicesResponse microservices = getGithubMicroservicesDelegate_.getGithubMicroservices();
 
 		// 4. Create conf file content
-		createNginxConf(confFile, microservices, request.getExcludedMicroservices(), request.getProd());
+		createNginxConf(confFile, microservices, request.getExcludedMicroservices(), request.getProd(), request.getCertificateNum());
 
 		return new CreateNGINXConfDelegateResponse(confFile);
 	}
@@ -56,7 +56,7 @@ public class CreateNGINXConfDelegate {
 	 *            list of microservices (names, e.g. toto-ms-gym) that are to be
 	 *            excluded from nginx
 	 */
-	private void createNginxConf(File confFile, GetGithubMicroservicesResponse microservices, List<String> excludedMicroservices, Boolean prod) {
+	private void createNginxConf(File confFile, GetGithubMicroservicesResponse microservices, List<String> excludedMicroservices, Boolean prod, Integer certificateNum) {
 
 		BufferedWriter writer = null;
 
@@ -74,9 +74,9 @@ public class CreateNGINXConfDelegate {
 				writer.newLine();
 				writer.write("server_name imatz.info;");
 				writer.newLine();
-				writer.write("ssl_certificate /certificates/fullchain3.pem;");
+				writer.write("ssl_certificate /certificates/fullchain" + certificateNum + ".pem;");
 				writer.newLine();
-				writer.write("ssl_certificate_key /certificates/privkey3.pem;");
+				writer.write("ssl_certificate_key /certificates/privkey" + certificateNum + ".pem;");
 				writer.newLine();
 			}
 
