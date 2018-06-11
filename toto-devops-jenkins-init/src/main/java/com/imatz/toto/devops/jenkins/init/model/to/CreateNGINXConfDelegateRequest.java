@@ -2,16 +2,27 @@ package com.imatz.toto.devops.jenkins.init.model.to;
 
 import java.util.List;
 
-public class CreateNGINXConfDelegateRequest {
+import com.imatz.toto.devops.jenkins.init.model.to.PostJenkinsJobRequest.Host;
 
+public class CreateNGINXConfDelegateRequest {
+	/**
+	 * Details of the jenkins URL
+	 */
+	private Host hostDetails_;
 	private List<String> excludedMicroservices_;
 	private Boolean prod_;
 	private Integer certificateNum_;
 
-	public CreateNGINXConfDelegateRequest(List<String> excludedMicroservices, Boolean prod, Integer certificateNum) {
+	public CreateNGINXConfDelegateRequest(Host host, List<String> excludedMicroservices, Boolean prod, Integer certificateNum) {
 		excludedMicroservices_ = excludedMicroservices;
 		prod_ = prod;
 		certificateNum_ = certificateNum;
+		hostDetails_ = host;
+	}
+	
+	
+	public Host getHostDetails() {
+		return hostDetails_;
 	}
 	
 	public Integer getCertificateNum() {

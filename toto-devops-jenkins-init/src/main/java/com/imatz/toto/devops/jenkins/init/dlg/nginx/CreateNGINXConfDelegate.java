@@ -14,6 +14,7 @@ import com.imatz.toto.devops.jenkins.init.model.to.CreateNGINXConfDelegateReques
 import com.imatz.toto.devops.jenkins.init.model.to.CreateNGINXConfDelegateResponse;
 import com.imatz.toto.devops.jenkins.init.model.to.GetGithubMicroservicesResponse;
 import com.imatz.toto.devops.jenkins.init.model.to.GetGithubMicroservicesResponse.TotoMSProject;
+import com.imatz.toto.devops.jenkins.init.model.to.PostJenkinsJobRequest.Host;
 
 /**
  * Creates the configuration file of nginx and puts in /nginx-setup
@@ -41,7 +42,7 @@ public class CreateNGINXConfDelegate {
 		GetGithubMicroservicesResponse microservices = getGithubMicroservicesDelegate_.getGithubMicroservices();
 
 		// 4. Create conf file content
-		createNginxConf(confFile, microservices, request.getExcludedMicroservices(), request.getProd(), request.getCertificateNum());
+		createNginxConf(confFile, microservices, request.getExcludedMicroservices(), request.getProd(), request.getCertificateNum(), request.getHostDetails());
 
 		return new CreateNGINXConfDelegateResponse(confFile);
 	}
@@ -55,8 +56,9 @@ public class CreateNGINXConfDelegate {
 	 * @param excludedMicroservices
 	 *            list of microservices (names, e.g. toto-ms-gym) that are to be
 	 *            excluded from nginx
+	 * @param host 
 	 */
-	private void createNginxConf(File confFile, GetGithubMicroservicesResponse microservices, List<String> excludedMicroservices, Boolean prod, Integer certificateNum) {
+	private void createNginxConf(File confFile, GetGithubMicroservicesResponse microservices, List<String> excludedMicroservices, Boolean prod, Integer certificateNum, Host host) {
 
 		BufferedWriter writer = null;
 
@@ -72,7 +74,7 @@ public class CreateNGINXConfDelegate {
 			if (prod) {
 				writer.write("listen 443 ssl;");
 				writer.newLine();
-				writer.write("server_name imatz.info;");
+				writer.write("server_name " + host.getHost() + ";");
 				writer.newLine();
 				writer.write("ssl_certificate /certificates/fullchain" + certificateNum + ".pem;");
 				writer.newLine();
