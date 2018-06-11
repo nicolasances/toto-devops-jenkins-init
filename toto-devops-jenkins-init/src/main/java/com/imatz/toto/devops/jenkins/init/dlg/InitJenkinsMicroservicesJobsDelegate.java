@@ -43,6 +43,13 @@ public class InitJenkinsMicroservicesJobsDelegate {
 			else response.addJobCreated(msProject.getName());
 		}
 		
+		// 3. Create Toto webapp job
+		postJenkinsJobRequest.setTotoMsName("toto");
+		PostJenkinsJobResponse jobCreationResponse = postJenkinsJobDelegate_.postJenkinsJob(postJenkinsJobRequest);
+		
+		if (jobCreationResponse.getAlreadyExisting()) response.addJob("toto");
+		else response.addJobCreated("toto");
+		
 		response.setNumberOfJobsCreated(response.getJobsCreated().size());
 		
 		return response;

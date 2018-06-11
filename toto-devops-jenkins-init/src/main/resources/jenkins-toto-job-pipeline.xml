@@ -17,7 +17,7 @@
   </properties>
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.42">
 	<script>
-		pipeline { agent any; stages { stage("Build Docker Image") {steps { dir('/nginx-setup') { sh 'docker build -t toto-nginx .'; }}}; stage("Deploy") {steps { sh 'docker stop toto-nginx || true' ; sh 'docker rm toto-nginx || true' ; sh 'docker run -d -p 80:80 --network totonet --restart always --name toto-nginx toto-nginx'; }};}}  	
+		pipeline { agent any; stages { stage("Download") {  steps {  sh 'rm -r -f /project-toto' ; sh 'git clone https://github.com/nicolasances/toto.git /project-toto'; }}; stage("Build Docker Image") {steps {dir('/project-toto/toto') {sh 'docker build -t toto .';}}}; stage("Deploy") {steps { sh 'docker stop toto || true' ; sh 'docker rm toto || true' ; sh 'docker run -d --network totonet --restart always --name toto toto'; }};}}  	
   	</script>
   	<sandbox>true</sandbox>
   </definition>
