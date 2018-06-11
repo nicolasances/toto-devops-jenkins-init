@@ -53,6 +53,10 @@ public class CreateNGINXDockerfileDelegate {
 			writer.newLine();
 			writer.write("COPY nginx.conf /etc/nginx/nginx.conf");
 			writer.newLine();
+			writer.write("RUN mkdir /certificates");
+			writer.newLine();
+			writer.write("VOLUME [“/certificates”]");
+			writer.newLine();
 			
 			writer.flush();
 		}
